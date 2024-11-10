@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
+// using salt buffer for storing password 
 const userSchema = new Schema({
   email: { type: String, required: true, unique: true },
   password: { type: Buffer, required: true },

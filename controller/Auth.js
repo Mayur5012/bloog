@@ -79,7 +79,7 @@ exports.resetPasswordRequest = async (req, res) => {
 
     // Also set token in email
     const resetPageLink =
-      'http://localhost:8080/reset-password?token=' + token + '&email=' + email;
+      'https://bloog-l1ai.onrender.com/reset-password?token=' + token + '&email=' + email;
     const subject = 'reset password for bloog';
     const html = `<p>Click <a href='${resetPageLink}'>here</a> to Reset Password</p>`;
 

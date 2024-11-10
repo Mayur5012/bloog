@@ -1,5 +1,6 @@
 const { Category } = require('../model/Category');
 
+// fetching categories
 exports.fetchCategories = async (req, res) => {
   try {
     const categories = await Category.find({}).exec();

@@ -1,3 +1,5 @@
+
+// using nodemailer for sending mail for reset password functionality
 const passport = require('passport');
 const nodemailer = require('nodemailer');
 let transporter = nodemailer.createTransport({

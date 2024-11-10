@@ -5,7 +5,6 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const session = require('express-session');
 const passport = require('passport');
-
 const LocalStrategy = require('passport-local').Strategy;
 const crypto = require('crypto');
 const jwt = require('jsonwebtoken');
@@ -21,8 +20,6 @@ const { User } = require('./model/User');
 const { isAuth, sanitizeUser, cookieExtractor } = require('./services/common');
 const path = require('path');
 const { env } = require('process');
-
-
 
 
 // JWT options
@@ -50,9 +47,8 @@ server.use(
 );
 
 
-
 server.use(express.json()); // to parse req.body
-// we can also use JWT token for client-only auth
+//we can also use JWT token for client-only auth
 server.use('/categories', categoriesRouter.router);
 server.use('/blogs', blogsRouter.router);
 server.use('/users', isAuth(), usersRouter.router);
@@ -63,7 +59,7 @@ server.get('*', (req, res) =>
   res.sendFile(path.resolve('build', 'index.html'))
 );
 
-// Passport Strategies
+//passport strategies, using sha256 algo for password hashing
 passport.use(
   'local',
   new LocalStrategy({ usernameField: 'email' }, async function (
@@ -118,6 +114,7 @@ passport.use(
   })
 );
 
+
 // this creates session variable req.user on being called from callbacks
 passport.serializeUser(function (user, cb) {
   process.nextTick(function () {
@@ -134,14 +131,19 @@ passport.deserializeUser(function (user, cb) {
 
 
 
-
 main().catch((err) => console.log(err));
 
+// connection of mongodb database
 async function main() {
   await mongoose.connect(process.env.MONGODB_URL);
   console.log('database connected');
 }
 
+
+// for listening on server
 server.listen(process.env.PORT, () => {
   console.log('server started');
 });
+
+
+// the authentication system can be done without the serializer and deserializer it is mainly used for users with multiple role on complex website, hence i used it for scalablity of this project.
